@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Renjie Zhu | Boston University</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── ABOUT: photo floats right, text wraps left ── */
+    .about-photo {
+      float: right;
+      margin: 0 0 1.5rem 2.5rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .photo-placeholder {
+      width: clamp(150px, 18vw, 220px);
+      height: clamp(150px, 18vw, 220px);
+      border-radius: 6px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+    .profile-photo {
+      width: clamp(150px, 18vw, 220px);
+      height: clamp(150px, 18vw, 220px);
+      border-radius: 6px;
+      object-fit: cover;
+      display: block;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+    .about-location {
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--text-faint);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* name + tagline */
+    .page-name {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
+    }
+    .page-name .name-cn {
+      font-size: 0.45em;
+      font-weight: 400;
+      color: var(--text-faint);
+      margin-left: 0.6rem;
+      vertical-align: middle;
+    }
+    .page-tagline {
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .bio-text { color: var(--text-muted); }
+    .bio-text + .bio-text { margin-top: 0.85rem; }
+    .bio-trivia {
+      margin-top: 0.85rem;
+      font-size: 0.88rem;
+      color: var(--text-faint);
+    }
+    .clearfix::after { content: ''; display: table; clear: both; }
+
+    /* ── PHOTOGRAPHY GRID ── */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.7rem;
+    }
+    .photo-item {
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .photo-item:hover { border-color: var(--primary); }
+    .photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+    .photo-item:hover img { transform: scale(1.05); }
+    .photo-empty {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.4rem; color: var(--border); font-size: 1.8rem;
+    }
+    .photo-empty span { font-size: 0.68rem; color: var(--text-faint); }
+
+    section { margin-bottom: 2.8rem; }
+
+    @media (max-width: 640px) {
+      .about-photo { float: none; margin: 0 0 1.5rem 0; }
+      .photo-placeholder, .profile-photo { width: 130px; height: 130px; border-radius: 50%; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV: social icons left | links right ── -->
+<nav>
+  <div class="nav-inner">
+    <!-- LEFT: social icons -->
+    <div class="nav-social">
+      <a href="mailto:rjzhu811@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+      <a href="https://scholar.google.com/citations?user=YOURID" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+      <a href="https://www.researchgate.net/profile/Renjie-Zhu" target="_blank" title="ResearchGate"><i class="fab fa-researchgate"></i></a>
+      <a href="https://github.com/wowrj" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/renjie-zhu" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://twitter.com/" target="_blank" title="Twitter / X"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+    <div class="nav-spacer"></div>
+
+    <!-- RIGHT: page links + dark toggle -->
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">about</a></li>
+      <li><a href="publications.html">publications</a></li>
+      <li><a href="news.html">news</a></li>
+      <li><a href="assets/cv.pdf" target="_blank">cv</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeBtn" title="Toggle dark mode" aria-label="Toggle dark mode">
+      <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- ── ABOUT ── -->
+  <section class="clearfix">
+
+    <!-- Photo floats right -->
+    <div class="about-photo">
+      <!-- Replace with: <img class="profile-photo" src="assets/img/profile.jpg" alt="Renjie Zhu" /> -->
+      <div class="photo-placeholder">RJ</div>
+      <div class="about-location">📍 Boston, MA</div>
+    </div>
+
+    <!-- Name + tagline + bio flow left -->
+    <h1 class="page-name">
+      Renjie Zhu <span class="name-cn">朱仁杰</span>
+    </h1>
+    <p class="page-tagline">
+      At the intersection of computational chemistry and biophysics
+    </p>
+
+    <p class="bio-text">
+      I am a PhD student in Chemistry at <strong>Boston University</strong>, advised by
+      <a href="https://sites.bu.edu/cui-group/" target="_blank">Prof. Qiang Cui</a>.
+      I completed my B.S. in Chemistry at <strong>East China Normal University</strong> (2021–2025),
+      where I worked with Prof. Fei Xia at the NYU-ECNU Center for Computational Chemistry
+      on coarse-grained force fields and molecular simulations.
+    </p>
+    <p class="bio-text">
+      I think of molecular simulations as a detective's lens — a way to uncover the hidden
+      dynamics of biological systems that cannot be seen by experiment alone. My current
+      research focuses on <strong>coarse-grained molecular modeling</strong>,
+      <strong>protein allosteric networks</strong>, and <strong>computer-aided drug design</strong>.
+    </p>
+    <p class="bio-text">
+      Prior to BU, I conducted a summer internship at <strong>Westlake University</strong> with
+      Prof. Jing Huang on protein pocket alignment (2024), and spent four years developing
+      CG force fields in Prof. Fei Xia's group at the NYU-ECNU Center (2021–2025).
+    </p>
+    <p class="bio-trivia">
+      Trivia: I love Pokémon, anime, fishing, and photography. I plan to collect more
+      beautiful moments through my lens wherever fieldwork takes me.
+    </p>
+
+  </section>
+
+  <!-- ── RESEARCH EXPERIENCE ── -->
+  <section>
+    <h2 class="section-title">Research Experience</h2>
+    <div class="exp-list">
+      <div class="exp-item">
+        <div class="exp-period">Dec 2025 – Present</div>
+        <div>
+          <div class="exp-title">Graduate Research Assistant</div>
+          <div class="exp-subtitle">Cui Group · Boston University, Boston, MA</div>
+          <div class="exp-detail">Computational biophysics — protein dynamics, MD simulations, and allosteric network analysis. Advisor: Prof. Qiang Cui.</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-period">Sep – Dec 2025</div>
+        <div>
+          <div class="exp-title">Lab Rotation</div>
+          <div class="exp-subtitle">Department of Chemistry · Boston University, Boston, MA</div>
+          <div class="exp-detail">QM/MM calculations during first-year PhD rotations.</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-period">Jul – Aug 2024</div>
+        <div>
+          <div class="exp-title">Summer Research Intern</div>
+          <div class="exp-subtitle">Huang Lab · Westlake University, Hangzhou</div>
+          <div class="exp-detail">Protein pocket alignment research. Advisor: Prof. Jing Huang.</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-period">Sep 2021 – Aug 2025</div>
+        <div>
+          <div class="exp-title">Undergraduate Research Assistant</div>
+          <div class="exp-subtitle">Xia Group · NYU-ECNU Center, East China Normal University</div>
+          <div class="exp-detail">Developed optimized coarse-grained force fields for small organic molecules and biological polymers. Advisor: Prof. Fei Xia.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ── -->
+  <section>
+    <h2 class="section-title">Education</h2>
+    <div class="exp-list">
+      <div class="exp-item">
+        <div class="exp-period">2025 – Present</div>
+        <div>
+          <div class="exp-title">Ph.D. in Chemistry</div>
+          <div class="exp-subtitle">Boston University · Boston, MA</div>
+          <div class="exp-detail">Advisor: Prof. Qiang Cui · Computational Biophysics</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-period">2021 – 2025</div>
+        <div>
+          <div class="exp-title">B.S. in Chemistry</div>
+          <div class="exp-subtitle">East China Normal University · Shanghai, China</div>
+          <div class="exp-detail">Outstanding Undergraduate Thesis · Outstanding Graduate in Shanghai</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RECENT PUBLICATIONS ── -->
+  <section>
+    <h2 class="section-title">Recent Publications</h2>
+    <div class="pub-list">
+
+      <div class="pub-card">
+        <div class="pub-thumb">📊</div>
+        <div class="pub-info">
+          <div class="pub-title">
+            <a href="https://doi.org/10.26434/chemrxiv.10001634/v1" target="_blank">
+              Measuring Differences in Protein Allosteric Graphs Constructed via Molecular Dynamics Simulations
+            </a>
+          </div>
+          <div class="pub-authors">Shi, J., Wan, Z., <span class="me">Zhu, R.</span>, &amp; Cui, Q.</div>
+          <div class="pub-venue">ChemRxiv · 2026</div>
+          <div class="pub-tags"><span class="tag">allostery</span><span class="tag">protein dynamics</span><span class="tag">MD</span></div>
+          <div class="pub-links">
+            <a href="https://doi.org/10.26434/chemrxiv.10001634/v1" target="_blank">DOI</a>
+            <button class="bibtex-toggle" onclick="toggleBibtex(this)">BibTeX</button>
+          </div>
+        </div>
+        <div class="bibtex-block">@article{shi2026allostery,
+  title   = {Measuring Differences in Protein Allosteric Graphs Constructed via Molecular Dynamics Simulations},
+  author  = {Shi, J. and Wan, Z. and Zhu, R. and Cui, Q.},
+  journal = {ChemRxiv},
+  year    = {2026},
+  doi     = {10.26434/chemrxiv.10001634/v1}
+}</div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">🧬</div>
+        <div class="pub-info">
+          <div class="pub-title">
+            <a href="https://doi.org/10.1021/acs.jpclett.5c01226" target="_blank">
+              Coarse-Grained Simulation of Persistence Length and Twisting Dynamics of Micrometer-Scale Microtubules
+            </a>
+          </div>
+          <div class="pub-authors"><span class="me">Zhu, R.</span>, Zhang, Y., Zhu, T., &amp; Xia, F.</div>
+          <div class="pub-venue">J. Phys. Chem. Lett. · 2025</div>
+          <div class="pub-tags"><span class="tag">microtubule</span><span class="tag">coarse-grained</span><span class="tag">biophysics</span></div>
+          <div class="pub-links">
+            <a href="https://doi.org/10.1021/acs.jpclett.5c01226" target="_blank">DOI</a>
+            <button class="bibtex-toggle" onclick="toggleBibtex(this)">BibTeX</button>
+          </div>
+        </div>
+        <div class="bibtex-block">@article{zhu2025microtubule,
+  title   = {Coarse-Grained Simulation of Persistence Length and Twisting Dynamics of Micrometer-Scale Microtubules},
+  author  = {Zhu, R. and Zhang, Y. and Zhu, T. and Xia, F.},
+  journal = {J. Phys. Chem. Lett.},
+  year    = {2025},
+  doi     = {10.1021/acs.jpclett.5c01226}
+}</div>
+      </div>
+
+    </div>
+    <a class="view-all" href="publications.html">View all publications →</a>
+  </section>
+
+  <!-- ── PHOTOGRAPHY ── -->
+  <section>
+    <h2 class="section-title">Photography</h2>
+    <div class="photo-grid">
+      <div class="photo-item"><div class="photo-empty"><i class="fas fa-image"></i><span>your photo</span></div></div>
+      <div class="photo-item"><div class="photo-empty"><i class="fas fa-image"></i><span>your photo</span></div></div>
+      <div class="photo-item"><div class="photo-empty"><i class="fas fa-image"></i><span>your photo</span></div></div>
+      <div class="photo-item"><div class="photo-empty"><i class="fas fa-image"></i><span>your photo</span></div></div>
+      <div class="photo-item"><div class="photo-empty"><i class="fas fa-image"></i><span>your photo</span></div></div>
+      <div class="photo-item"><div class="photo-empty"><i class="fas fa-image"></i><span>your photo</span></div></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>&copy; 2025 Renjie Zhu &nbsp;·&nbsp; <a href="mailto:rjzhu811@gmail.com">rjzhu811@gmail.com</a></p>
+</footer>
+
+<script src="theme.js"></script>
+<script>
+  function toggleBibtex(btn) {
+    const card = btn.closest('.pub-card');
+    const block = card.querySelector('.bibtex-block');
+    const open = block.classList.toggle('open');
+    btn.textContent = open ? 'Hide BibTeX' : 'BibTeX';
+  }
+</script>
+</body>
+</html>
